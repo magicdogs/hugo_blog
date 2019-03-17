@@ -18,6 +18,7 @@
 <script type="text/javascript" src="{{ "js/vendors/mdb/mdb.min.js" | absURL }}"></script>
 
 <script type="text/javascript" src="{{ "js/main.js" | absURL }}"></script>
+<script type="text/javascript" src="{{ "js/juicer-min.js" | absURL }}"></script>
 
 
 <!-- Highlight -->
@@ -37,14 +38,55 @@
           renderMathInElement(document.body);
 		  var avatar_count = 0;
 		  setInterval(function(){ 
-			if((avatar_count += 1) % 360 == 0){avatar_count = 0;}
-			$(".avatar-lg").css('transform','rotate('+(avatar_count += 1)+'deg)');
+			    if((avatar_count += 1) % 360 == 0){avatar_count = 0;}
+			    $(".avatar-lg").css('transform','rotate('+(avatar_count += 1)+'deg)');
 		  }, 38);
       });
   </script>
 {{ end }}
 <!-- /.KaTeX -->
 
+{{ if (and (.Params.id) (.Params.author))}}
+<script id="tpl" type="text/template">
+  <div class="row">
+      <div class="col-md-10">
+          <ul>
+            {@each content as it,index}
+            <li>
+                <h5>#${index | incr} ${it.name} 发表了留言:</h5>
+                <p class="content">
+                    ${it.content}
+                </p>
+                <span class="fr frm reply-comment"><a href="javascript:void(0);">回复评论</a></span>
+                <span class="fr frm lookup"><a href="javascript:void(0);">查看</a></span>
+                <span class="fr frm">${it.create_at}</span>
+                <div class="clearfix"></div>
+                <div class="reply visable">
+                  <input class="form-group form-control" name="name" type="text" placeholder="您的大名"/>
+                  <textarea class="form-group form-control" name="content" rows="3" placeholder="说点什么"></textarea>
+                  <input type="button" class="form-group fr btn-primary" onclick="reply_user_topic(this,${it.id},${it.post_id},'${it.author}')" value="回复">
+                  <div class="clearfix"></div>
+                </div>
+            </li>
+            {@/each}
+          </ul>
+      </div>
+  </div>
+</script>
+
+  <script>
+    var postId = "{{.Params.id}}";
+    var author = "{{.Params.author}}";
+    $(document).ready(function(){
+      juicer.register('incr', index_sum);
+      $("#submit_comments_btn").click(function(){
+        submit_comments_btn_click(postId,author);
+      });
+      init_comments(postId,author,-1);
+      console.log({{$.Site.Params.commentUrl}});
+    });
+  </script>
+{{ end }}
 
 <!-- Google Analytics -->
 {{ template "_internal/google_analytics_async.html" . }}

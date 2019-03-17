@@ -1170,3 +1170,71 @@ toc-nav  scrollspy
   color: #666 !important;
   font-style: normal;
 }
+
+
+.comments {
+  margin: 1rem 7rem;
+}
+
+.comments .fl {
+  float: left;
+}
+
+.comments .fr {
+  float: right;
+}
+
+.comments .fr.frm {
+  margin-right:15px;
+}
+
+.comments .lookup{
+    color: #428bca;
+}
+
+.comments .reply-comment{
+  color: #428bca;
+}
+
+.comments .expand{
+  color: #428bca;
+}
+
+.comments .visable{
+  display:none;
+}
+
+.comments .clearfix{
+  clear: both;
+}
+
+.comments .reply{
+  margin: 5px 20px;
+}
+
+.comments .content{
+  height: 25px;
+  overflow-y: hidden;
+}
+
+.comments ul {
+  list-style: none;
+  display: list-item;
+  margin: 0;
+  padding: 0;
+}
+
+.comments ul li {
+  margin: 10px 30px;
+  border: 5px solid #c2c6ca;
+  border-radius: 15px;
+}
+
+.comments ul li p {
+  margin: 0px 15px;
+}
+
+.comments ul li h5 {
+  margin: 5px 8px;
+}
+

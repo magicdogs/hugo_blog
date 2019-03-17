@@ -71,6 +71,9 @@ pygmentsuseclasses         = true
   # latex
   katex                    = true
 
+  # comments
+  commentUrl               = "http://localhost:8888/comments"
+
   # links
   email                    = "packingdown@gmail.com"
   github                   = "//github.com/magicdogs"

@@ -55,3 +55,103 @@ if (location.hash) {
 //     // do something…
 //     var offset = $('[data-spy="scroll"]').attr("data-offset")
 //   })
+function ajax_post(params,success,fail){
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8888/comments",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(params),
+        dataType: "json",
+        success: function (resp) {
+          console.log(resp);
+          success(resp);
+        },
+        error: function (resp) {
+            console.log(resp);
+            fail(resp);
+        }
+    });
+}
+
+
+function submit_comments_btn_click(postId,author){
+    var name = $("#names").val();
+    var content = $("#comments").val();
+    var data =  {
+        "post_id": parseInt(postId),
+        "author": author,
+        "name": name,
+        "content": content
+    };
+    ajax_post(data,function(){
+        init_comments(postId,author,-1);
+    },function(){});
+}
+
+
+function init_comments(postId,author,pid){
+    $.get("http://localhost:8888/comments", { "author": author, "postId": postId,"pid": pid},function(data){
+        console.log("Data Loaded: " , data);
+        var comments_list = $("#comments-list");
+        comments_list.html('');
+        if(data.size){
+            var tpl = document.getElementById('tpl').innerHTML;
+            var htmlResult = juicer(tpl, data);
+            //console.log(htmlResult);
+            comments_list.html(htmlResult);
+            rebind_frm_event();
+            rebing_reply_comment();
+        }
+    });
+}
+
+function rebing_reply_comment(){
+    $(".reply-comment").click(function(){
+        var that = $(this);
+        var reply = that.parent().children(".reply");
+        console.log(that);
+        if(reply.hasClass("visable")){
+            reply.removeClass("visable")
+            that.children("a").html("收起回复");
+        }else{
+            reply.addClass("visable")
+            that.children("a").html("回复评论");
+        }
+    });
+}
+
+function rebind_frm_event(){
+    $(".lookup").click(function(){
+        console.log($(this));
+        var that = $(this);
+        if(that.children("a").hasClass("expand")){
+            that.parent().children("p").addClass("content");
+            that.children("a").removeClass("expand");
+            that.children("a").html("查看");
+        }else{
+            that.parent().children("p").removeClass("content");
+            that.children("a").addClass("expand");
+            that.children("a").html("收起");
+        }
+        
+    });
+}
+
+function reply_user_topic(owner,pid,postId,author){
+    var data = {
+        "pid":pid,
+        "author":author,
+        "post_id":postId
+    };
+    $(owner).parent().children("[name]").each(function(index,ele){
+        data[$(ele).attr("name")] = $(ele).val();
+    });
+    console.log(data);
+    ajax_post(data,function(){
+        init_comments(postId,author,-1);
+    },function(){});
+}
+
+function index_sum(i){
+    return parseInt(i) + 1;
+}

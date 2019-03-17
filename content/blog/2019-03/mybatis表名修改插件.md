@@ -5,6 +5,8 @@ draft: false
 summary: "  有时候我们需要通过同一套 mybatis mapper 来操作相同的表结构但是却拥有不同的表名的时候，这个插件可以帮助我们在执行mapper的时候动态更改操作的表名字。..."
 img: /images/The_Elder_Scrolls_V_Skyrim_forest.jpg
 toc: true
+id: 2019031001
+author: magic
 
 typora-copy-images-to: ..\..\..\static\images
 typora-root-url: ..\..\..\static
