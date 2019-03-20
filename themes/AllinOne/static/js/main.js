@@ -58,7 +58,7 @@ if (location.hash) {
 function ajax_post(params,success,fail){
     $.ajax({
         type: "POST",
-        url: "http://localhost:8888/comments",
+        url: global_config.commentUrl,
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(params),
         dataType: "json",
@@ -74,23 +74,23 @@ function ajax_post(params,success,fail){
 }
 
 
-function submit_comments_btn_click(postId,author){
+function submit_comments_btn_click(){
     var name = $("#names").val();
     var content = $("#comments").val();
     var data =  {
-        "post_id": parseInt(postId),
-        "author": author,
+        "post_id": parseInt(global_config.postId),
+        "author": global_config.author,
         "name": name,
         "content": content
     };
     ajax_post(data,function(){
-        init_comments(postId,author,-1);
+        init_comments(-1);
     },function(){});
 }
 
 
-function init_comments(postId,author,pid){
-    $.get("http://localhost:8888/comments", { "author": author, "postId": postId,"pid": pid},function(data){
+function init_comments(pid){
+    $.get(global_config.commentUrl, { "author": global_config.author, "postId": global_config.postId,"pid": pid},function(data){
         console.log("Data Loaded: " , data);
         var comments_list = $("#comments-list");
         comments_list.html('');
@@ -137,18 +137,18 @@ function rebind_frm_event(){
     });
 }
 
-function reply_user_topic(owner,pid,postId,author){
+function reply_user_topic(owner,pid){
     var data = {
         "pid":pid,
-        "author":author,
-        "post_id":postId
+        "author": global_config.author,
+        "post_id": global_config.postId
     };
     $(owner).parent().children("[name]").each(function(index,ele){
         data[$(ele).attr("name")] = $(ele).val();
     });
     console.log(data);
     ajax_post(data,function(){
-        init_comments(postId,author,-1);
+        init_comments(-1);
     },function(){});
 }
 

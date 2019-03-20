@@ -72,7 +72,7 @@ pygmentsuseclasses         = true
   katex                    = true
 
   # comments
-  commentUrl               = "http://localhost:8888/comments"
+  commentUrl               = "http://35.229.254.133:8888/comments"
 
   # links
   email                    = "packingdown@gmail.com"
